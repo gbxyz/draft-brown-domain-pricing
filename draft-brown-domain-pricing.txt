@@ -1,0 +1,336 @@
+
+
+
+Internet Engineering Task Force                                 G. Brown
+Internet-Draft                                      CentralNic Group plc
+Intended status: Informational                         February 24, 2015
+Expires: August 28, 2015
+
+
+       A CSV-based Format for Premium Domain Pricing Information
+                     draft-brown-domain-pricing-00
+
+Abstract
+
+   This document describes a format (based on RFC 4180) for premium
+   domain name pricing data.
+
+Status of this Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on August 28, 2015.
+
+Copyright Notice
+
+   Copyright (c) 2015 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+
+
+
+Brown                    Expires August 28, 2015                [Page 1]
+
+Internet-Draft        Premium Domain Pricing Format        February 2015
+
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . 3
+     1.1.  Conventions Used in This Document . . . . . . . . . . . . . 3
+   2.  Format for Premium Pricing Information  . . . . . . . . . . . . 3
+     2.1.  Contents  . . . . . . . . . . . . . . . . . . . . . . . . . 3
+     2.2.  File Name . . . . . . . . . . . . . . . . . . . . . . . . . 3
+     2.3.  Columns . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+     2.4.  Record and Field Delimiters . . . . . . . . . . . . . . . . 5
+     2.5.  Quoting and Escaping  . . . . . . . . . . . . . . . . . . . 5
+     2.6.  Character Encoding  . . . . . . . . . . . . . . . . . . . . 5
+     2.7.  Compression . . . . . . . . . . . . . . . . . . . . . . . . 5
+   3.  Security Considerations . . . . . . . . . . . . . . . . . . . . 5
+   4.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 5
+   5.  Change History  . . . . . . . . . . . . . . . . . . . . . . . . 6
+   6.  TODO  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+   7.  Normative References  . . . . . . . . . . . . . . . . . . . . . 6
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Brown                    Expires August 28, 2015                [Page 2]
+
+Internet-Draft        Premium Domain Pricing Format        February 2015
+
+
+1.  Introduction
+
+   As described in [draft-brown-epp-fees], the current expansion of the
+   DNS namespace has resulted in the development of a number of novel
+   business models.  Many Top-Level Domain Registry Operators have
+   implemented a system of premium or tiered pricing, whereby higher
+   registration and renewal fees are levied for certain domain names.
+
+   This document proposed a standard format for premium domain pricing
+   information, based on the Comma-Separated Variables (CSV) format
+   described in RFC 4180 [RFC4180].  Adoption of this format by by
+   registries, back-end registry operators, registrars, and other
+   entities within the domain name industry will facilitate the exchange
+   of premium pricing information between these entities, which will
+   encourage participation in, and adoption of, the innovative business
+   models that the New gTLD Program has enabled.
+
+1.1.  Conventions Used in This Document
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
+
+
+2.  Format for Premium Pricing Information
+
+   Premium Pricing Information for a single Top-Level Domain MUST be
+   provided in a single Comma-Separated Values (CSV) file.  This file
+   MUST be compliant with the specification for CSV files described in
+   [RFC4180].  The format for this file is described below.
+
+2.1.  Contents
+
+   The file MUST contain complete pricing information for all domains
+   within the TLD.  Partial information, or information split across
+   multiple files, MUST not be accepted.
+
+2.2.  File Name
+
+   The file name MUST have the following format:
+
+     TLD-CURRENCY-YYYY-MM-DD-Z.CSV
+
+   Where:
+
+   1.  "TLD" is the top-level domain label
+
+
+
+
+
+Brown                    Expires August 28, 2015                [Page 3]
+
+Internet-Draft        Premium Domain Pricing Format        February 2015
+
+
+   2.  "CURRENCY" is the [ISO4217] three-character currency code
+
+   3.  "YYYY-MM-DD" is the date the file was created (eg 2014-12-01)
+
+   4.  "Z" is an unsigned integer version number
+
+2.3.  Columns
+
+   The file MUST contain the following columns:
+
+   +-------------+---------------------+-------------------------------+
+   | Column      | Description         | Format                        |
+   +-------------+---------------------+-------------------------------+
+   |             |                     |                               |
+   | fqdn        | The fully-qualified | ^[a-z0-9\-]{1,63}\.[a-z]{2,}$ |
+   |             | domain name         |                               |
+   |             |                     |                               |
+   | class       | The class to which  | ^[A-Za-z0-9\-]{1,}$           |
+   |             | the domain belongs  |                               |
+   |             |                     |                               |
+   | reg_fee     | Registration fee    | ^[0-9]+\.[0-9]{2}$            |
+   |             | (per year)          |                               |
+   |             |                     |                               |
+   | renewal_fee | Renewal fee         | (as above)                    |
+   |             | (per year)          |                               |
+   |             |                     |                               |
+   |             |                     |                               |
+   | restore_fee | RGP restore fee     | (as above)                    |
+   |             |                     |                               |
+   +-------------+---------------------+-------------------------------+
+
+   The "Format" column in the table describes the regular expression
+   that MUST be used to validate the value of the column.  The regular
+   expression is in [PCRE] syntax.
+
+   The "fqdn" column MUST NOT contain any of the following:
+
+   o  Upper-case ASCII characters
+
+   o  White space (space or tab characters, non-printable characters,
+      etc)
+
+   o  IDN U-labels (only A-labels are accepted)
+
+   o  Non-alphanumeric characters (with the exception of U+002D "Hyphen
+      Minus")
+
+
+
+
+
+Brown                    Expires August 28, 2015                [Page 4]
+
+Internet-Draft        Premium Domain Pricing Format        February 2015
+
+
+   o  Domain names that are not fully-qualified.
+
+   o  A trailing period (U+002E) at the end of the domain name.
+
+   The "class" column relates to the <fee:class> element described in
+   [draft-brown-epp-fees] and identifies the class, tier, or category
+   for the domain.
+
+   The registration, renewal and restore fee columns MUST NOT contain
+   any of the following:
+
+   o  Currency symbols
+
+   o  Commas separating groups of numerals
+
+   o  More than 2 decimal places
+
+2.4.  Record and Field Delimiters
+
+   Fields MUST be delimited by commas (U+002C).  Records MUST be
+   delimited by CRLF (U+000D U+000A).
+
+2.5.  Quoting and Escaping
+
+   Fields SHOULD NOT be quoted.  Characters within fields SHOULD NOT be
+   escaped.  The permitted values for the columns in this specification
+   mean that quoting and escaping are not necessary.
+
+2.6.  Character Encoding
+
+   The file MUST be encoded as US-ASCII or UTF-8.  Due to the
+   restrictions on the content described in this document, both
+   encodings will produce the same byte sequence.
+
+2.7.  Compression
+
+   The file MAY be compressed.  If compression is used, the filename
+   MUST have the appropriate extension (ie .gz, .bz2, .zip) appended to
+   it.  The filename of the uncompressed file MUST have the form
+   described above.
+
+
+3.  Security Considerations
+
+
+4.  Acknowledgements
+
+
+
+
+
+Brown                    Expires August 28, 2015                [Page 5]
+
+Internet-Draft        Premium Domain Pricing Format        February 2015
+
+
+5.  Change History
+
+
+6.  TODO
+
+
+7.  Normative References
+
+   [ISO4217]  International Organization for Standardization, "ISO 4217:
+              2008, Codes for the representation of currencies and
+              funds", 2008.
+
+   [PCRE]     Philip Hazel (et al), "Perl Compatible Regular
+              Expressions", 2015.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+   [RFC4180]  Shafranovich, Y., "Common Format and MIME Type for Comma-
+              Separated Values (CSV) Files", RFC 4180, October 2005.
+
+   [draft-brown-epp-fees]
+              Brown, G., "Registry Fee Extension for the Extensible
+              Provisioning Protocol (EPP)", 2015.
+
+
+Author's Address
+
+   Gavin Brown
+   CentralNic Group plc
+   35-39 Moorgate
+   London, England  EC2R 6AR
+   GB
+
+   Phone: +44 20 33 88 0600
+   Email: gavin.brown@centralnic.com
+   URI:   https://www.centralnic.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Brown                    Expires August 28, 2015                [Page 6]
+
