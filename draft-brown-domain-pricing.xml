@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
-
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd"
+[
 
   <!ENTITY RFC2119 SYSTEM
     "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
@@ -9,9 +9,7 @@
     "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4180.xml">
 
 ]>
-
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
-
 <?rfc strict="yes" ?>
 <?rfc toc="yes"?>
 <?rfc tocdepth="4"?>
@@ -21,12 +19,11 @@
 <?rfc subcompact="no" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-
 <rfc category="info" docName="draft-brown-domain-pricing-00" ipr="trust200902">
-
   <front>
-    <title abbrev="Premium Domain Pricing Format">A CSV-based Format for Premium
-    Domain Pricing Information</title>
+
+    <title abbrev="Premium Domain Pricing Format">A CSV-based Format for
+    Premium Domain Pricing Information</title>
 
     <author fullname="Gavin Brown" initials="G" surname="Brown">
       <organization>CentralNic Group plc</organization>
@@ -45,71 +42,81 @@
     </author>
 
     <date month="February" year="2015" />
-
     <area>Applications</area>
     <workgroup>Internet Engineering Task Force</workgroup>
     <keyword>EPP, DNS, Registries, Registrars, Billing</keyword>
 
-    <abstract><t>This document describes a format (based on RFC 4180)
-    for premium domain name pricing data.</t></abstract>
+    <abstract>
+      <t>This document describes a format (based on RFC 4180) for premium
+      domain name pricing data.</t>
+    </abstract>
   </front>
-
   <middle>
-
     <section title="Introduction">
+      <t>As described in <xref target="draft-brown-epp-fees" />, the current
+      expansion of the DNS namespace has resulted in the development of a
+      number of novel business models. Many Top-Level Domain Registry Operators
+      have implemented a system of premium or tiered pricing, whereby higher
+      registration and renewal fees are levied for certain domain names.</t>
 
-      <t>As described in <xref target="draft-brown-epp-fees" />, the current expansion of
-      the DNS namespace has resulted in the development of a number of novel
-      business models. Many Top-Level Domain Registry Operators have implemented
-      a system of premium or tiered pricing, whereby higher registration and renewal
-      fees are levied for certain domain names.</t>
-
-      <t>This document proposed a standard format for premium domain pricing information,
-      based on the Comma-Separated Variables (CSV) format described in <xref
-      target="RFC4180" />. Adoption of this format by by registries,
-      back-end registry operators, registrars, and other entities within the domain
-      name industry will facilitate the exchange of premium pricing information between
-      these entities, which will encourage participation in, and adoption of, the
-      innovative business models that the New gTLD Program has enabled.</t>
+      <t>This document proposed a standard format for premium domain pricing
+      information, based on the Comma-Separated Variables (CSV) format
+      described in  <xref target="RFC4180" />. Adoption of this format by
+      registries, back-end registry operators, registrars, and other entities
+      within the domain name industry will facilitate the exchange of premium
+      pricing information between these entities, which will encourage
+      participation in, and adoption of, the innovative business models that
+      the New gTLD Program has enabled.</t>
 
       <section title="Conventions Used in This Document">
-
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
         document are to be interpreted as described in 
         <xref target="RFC2119">RFC 2119</xref>.</t>
-
       </section>
     </section>
 
     <section title="Format for Premium Pricing Information">
-      <t>Premium Pricing Information for a single Top-Level Domain MUST be provided in a
-      single Comma-Separated Values (CSV) file. This file MUST be compliant with the
-      specification for CSV files described in <xref target="RFC4180" />. The format for
-      this file is described below.</t>
+
+      <t>Premium Pricing Information for a single Top-Level Domain MUST be
+      provided in a single Comma-Separated Values (CSV) file. This file MUST be
+      compliant with the specification for CSV files described in 
+      <xref target="RFC4180" />. The format for this file is described
+      below.</t>
 
       <section title="Contents">
-        <t>The file MUST contain complete pricing information for all domains within the
-        TLD. Partial information, or information split across multiple files, MUST not be
-        accepted.</t>
+        <t>The file MUST contain complete pricing information for all domains
+        within the TLD. Partial information, or information split across
+        multiple files, MUST not be accepted.</t>
       </section>
 
       <section title="File Name">
         <t>The file name MUST have the following format:</t>
-  <figure><artwork>
-  TLD-CURRENCY-YYYY-MM-DD-Z.CSV</artwork></figure>
-  <t>Where:</t>
-  <t><list style="numbers">
-    <t>"TLD" is the top-level domain label</t>
-    <t>"CURRENCY" is the <xref target="ISO4217"/> three-character currency code</t>
-    <t>"YYYY-MM-DD" is the date the file was created (eg 2014-12-01)</t>
-    <t>"Z" is an unsigned integer version number</t>
-  </list></t>
+        <figure>
+          <artwork>
+      TLD-CURRENCY-YYYY-MM-DD-Z.CSV</artwork>
+        </figure>
+
+        <t>Where:</t>
+
+        <t>
+          <list style="numbers">
+            <t>"TLD" is the top-level domain label</t>
+            <t>"CURRENCY" is the 
+            <xref target="ISO4217" /> three-character currency code</t>
+            <t>"YYYY-MM-DD" is the date the file was created (eg
+            2014-12-01)</t>
+            <t>"Z" is an unsigned integer version number</t>
+          </list>
+        </t>
       </section>
 
       <section title="Columns">
+
         <t>The file MUST contain the following columns:</t>
-  <figure><artwork>
+
+        <figure>
+          <artwork>
 +-------------+---------------------+-------------------------------+
 | Column      | Description         | Format                        |
 +-------------+---------------------+-------------------------------+
@@ -129,56 +136,66 @@
 |             |                     |                               |
 | restore_fee | RGP restore fee     | (as above)                    |
 |             |                     |                               |
-+-------------+---------------------+-------------------------------+
-</artwork></figure>
++-------------+---------------------+-------------------------------+</artwork>
+        </figure>
 
-        <t>The "Format" column in the table describes the regular expression that MUST
-        be used to validate the value of the column. The regular expression is
-        in <xref target="PCRE"/> syntax.</t>
+        <t>The "Format" column in the table describes the regular expression
+        that MUST be used to validate the value of the column. The regular
+        expression is in <xref target="PCRE" /> syntax.</t>
 
         <t>The "fqdn" column MUST NOT contain any of the following:</t>
-        <t><list style="symbols">
-          <t>Upper-case ASCII characters</t>
-          <t>White space (space or tab characters, non-printable characters, etc)</t>
-          <t>IDN U-labels (only A-labels are accepted)</t>
-          <t>Non-alphanumeric characters (with the exception of U+002D "Hyphen Minus")</t>
-          <t>Domain names that are not fully-qualified.</t>
-          <t>A trailing period (U+002E) at the end of the domain name.</t>
-        </list></t>
+        <t>
+          <list style="symbols">
+            <t>Upper-case ASCII characters</t>
+            <t>White space (space or tab characters, non-printable characters,
+            etc)</t>
+            <t>IDN U-labels (only A-labels are accepted)</t>
+            <t>Non-alphanumeric characters (with the exception of U+002D
+            "Hyphen Minus")</t>
+            <t>Domain names that are not fully-qualified.</t>
+            <t>A trailing period (U+002E) at the end of the domain name.</t>
+          </list>
+        </t>
 
-      <t>The "class" column is OPTIONAL and relates to the &lt;fee:class&gt;
-      element described in <xref target="draft-brown-epp-fees" /> and identifies the
-      class, tier, or category for the domain.</t>
+        <t>The "class" column is OPTIONAL and relates to the &lt;fee:class&gt;
+        element described in 
+        <xref target="draft-brown-epp-fees" /> and identifies the class, tier,
+        or category for the domain.</t>
 
-  <t>The registration, renewal and restore fee columns MUST NOT contain any
-        of the following:</t>
+        <t>The registration, renewal and restore fee columns MUST NOT contain
+        any of the following:</t>
 
-        <t><list style="symbols">
-          <t>Currency symbols</t>
-          <t>Commas separating groups of numerals</t>
-          <t>More than 2 decimal places</t>
-        </list></t>
+        <t>
+          <list style="symbols">
+            <t>Currency symbols</t>
+            <t>Commas separating groups of numerals</t>
+            <t>More than 2 decimal places</t>
+          </list>
+        </t>
       </section>
 
       <section title="Record and Field Delimiters">
-        <t>Fields MUST be delimited by commas (U+002C). Records MUST be delimited by CRLF (U+000D U+000A).</t>
+        <t>Fields MUST be delimited by commas (U+002C). Records MUST be
+        delimited by CRLF (U+000D U+000A).</t>
       </section>
 
       <section title="Quoting and Escaping">
-        <t>Fields SHOULD NOT be quoted. Characters within fields SHOULD NOT be escaped. The permitted values
-  for the columns in this specification mean that quoting and escaping are not necessary.</t>
+        <t>Fields SHOULD NOT be quoted. Characters within fields SHOULD NOT be
+        escaped. The permitted values for the columns in this specification
+        mean that quoting and escaping are not necessary.</t>
       </section>
 
       <section title="Character Encoding">
-        <t>The file MUST be encoded as US-ASCII or UTF-8. Due to the restrictions on the content described
-  in this document, both encodings will produce the same byte sequence.</t>
+        <t>The file MUST be encoded as US-ASCII or UTF-8. Due to the
+        restrictions on the content described in this document, both encodings
+        will produce the same byte sequence.</t>
       </section>
 
       <section title="Compression">
-        <t>The file MAY be compressed. If compression is used, the filename MUST have the appropriate extension
-  (ie .gz, .bz2, .zip) appended to it. The filename of the uncompressed file MUST have the form described
-  above.</t>
-
+        <t>The file MAY be compressed. If compression is used, the filename
+        MUST have the appropriate extension (ie .gz, .bz2, .zip) appended to
+        it. The filename of the uncompressed file MUST have the form described
+        above.</t>
       </section>
 
     </section>
@@ -200,49 +217,49 @@
     </section>
 
   </middle>
-
   <back>
     <references title="Normative References">
+
       &RFC2119;
 
-      &RFC4180;
+      &RFC4180; 
 
       <reference anchor="PCRE">
         <front>
-		<title>Perl Compatible Regular Expressions</title>
-                <author>
-                    <organization>Philip Hazel (et al)</organization>
-                </author>
-		<date year="2015" />
+          <title>Perl Compatible Regular Expressions</title>
+          <author>
+            <organization>Philip Hazel (et al)</organization>
+          </author>
+          <date year="2015" />
         </front>
-	<format type="HTML" target="http://www.pcre.org/"/>
+        <format type="HTML" target="http://www.pcre.org/" />
       </reference>
 
       <reference anchor="ISO4217">
-          <front>
-              <title>ISO 4217:2008, Codes for the representation of currencies
-              and funds</title>
-              <author>
-                  <organization>International Organization for
-                  Standardization</organization>
-              </author>
-              <date year="2008" />
-          </front>
-          <format type="XML"
-            target="http://www.currency-iso.org/dam/downloads/table_a1.xml" />
-          <format type="HTML"
-            target="http://www.iso.org/iso/home/standards/currency_codes.htm" />
+        <front>
+          <title>ISO 4217:2008, Codes for the representation of currencies and
+          funds</title>
+          <author>
+            <organization>International Organization for
+            Standardization</organization>
+          </author>
+          <date year="2008" />
+        </front>
+        <format type="XML"
+          target="http://www.currency-iso.org/dam/downloads/table_a1.xml" />
+        <format type="HTML"
+          target="http://www.iso.org/iso/home/standards/currency_codes.htm" />
       </reference>
 
       <reference anchor="draft-brown-epp-fees">
-          <front>
-              <title>Registry Fee Extension for the Extensible Provisioning
-        Protocol (EPP)</title>
-              <author fullname="Gavin Brown" initials="G" surname="Brown"/>
-              <date year="2015" />
-          </front>
-          <format type="HTML"
-            target="http://tools.ietf.org/html/draft-brown-epp-fees" />
+        <front>
+          <title>Registry Fee Extension for the Extensible Provisioning Protocol
+          (EPP)</title>
+          <author fullname="Gavin Brown" initials="G" surname="Brown" />
+          <date year="2015" />
+        </front>
+        <format type="HTML"
+          target="http://tools.ietf.org/html/draft-brown-epp-fees" />
       </reference>
     </references>
   </back>
